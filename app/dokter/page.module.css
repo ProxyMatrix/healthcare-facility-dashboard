@@ -1,0 +1,43 @@
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  margin-bottom: var(--space-5);
+}
+
+.group {
+  margin-bottom: var(--space-6);
+}
+
+.groupTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+
+.message {
+  padding: var(--space-6) 0;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+}
+
+.messageError {
+  padding: var(--space-4);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  font-weight: 700;
+}

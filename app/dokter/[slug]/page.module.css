@@ -1,0 +1,112 @@
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.photo {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.photoFallback {
+  width: 96px;
+  height: 96px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--font-size-3xl);
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.specialization {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+}
+
+.bio {
+  margin-bottom: var(--space-5);
+  line-height: 1.6;
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-bottom: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.message {
+  color: var(--color-text-muted);
+}
+
+.scheduleList,
+.exceptionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.scheduleItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.day {
+  font-weight: 700;
+  min-width: 72px;
+}
+
+.time {
+  font-weight: 600;
+}
+
+.room {
+  color: var(--color-text-muted);
+}
+
+.exceptionItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-md);
+}
+
+.exceptionDate {
+  font-weight: 700;
+  color: var(--color-warning);
+}
+
+.exceptionReason {
+  color: var(--color-text-muted);
+  font-style: italic;
+}

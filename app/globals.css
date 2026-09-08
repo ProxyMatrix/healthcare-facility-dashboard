@@ -1,0 +1,172 @@
+/* ==========================================================================
+   Reset dasar
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* ==========================================================================
+   Design tokens (CSS variables)
+   Seluruh komponen WAJIB memakai variabel ini, jangan hardcode warna/ukuran.
+   ========================================================================== */
+:root {
+  /* --- Warna utama --- */
+  --color-primary: #0f766e;
+  --color-primary-dark: #115e59;
+  --color-primary-light: #14b8a6;
+  --color-primary-bg: #f0fdfa;
+
+  /* --- Warna status (WAJIB dipakai bersama teks/ikon, bukan warna saja) --- */
+  --color-success: #16a34a;
+  --color-success-bg: #dcfce7;
+  --color-warning: #d97706;
+  --color-warning-bg: #fef3c7;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fee2e2;
+  --color-info: #2563eb;
+  --color-info-bg: #dbeafe;
+  --color-accent: #7c3aed;
+  --color-accent-bg: #ede9fe;
+
+  /* --- Warna netral --- */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+
+  --color-bg: var(--color-neutral-50);
+  --color-surface: #ffffff;
+  --color-text: var(--color-neutral-900);
+  --color-text-muted: var(--color-neutral-500);
+  --color-border: var(--color-neutral-200);
+
+  /* --- Spacing --- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* --- Radius --- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* --- Shadow --- */
+  --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.06);
+  --shadow-md: 0 4px 12px rgba(17, 24, 39, 0.08);
+  --shadow-lg: 0 12px 32px rgba(17, 24, 39, 0.12);
+
+  /* --- Font --- */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+
+  /* Ukuran dasar minimal 16px — halaman publik dibaca di HP oleh pasien,
+     sering oleh orang tua di ruang tunggu. Jangan diturunkan. */
+  --font-size-xs: 0.8125rem;   /* 13px */
+  --font-size-sm: 0.9375rem;   /* 15px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.375rem;    /* 22px */
+  --font-size-2xl: 1.75rem;    /* 28px */
+  --font-size-3xl: 2.25rem;    /* 36px */
+  --font-size-4xl: 3rem;       /* 48px */
+
+  /* --- Mode layar TV ---
+     Dipasang di ruang tunggu, dibaca dari jarak 3-5 meter, jadi jauh
+     lebih besar dari ukuran layar biasa. Dipakai lewat class .tv-mode
+     yang dipasang di elemen pembungkus halaman mode TV. */
+  --tv-font-sm: 1.25rem;     /* 20px */
+  --tv-font-base: 1.75rem;   /* 28px */
+  --tv-font-lg: 2.25rem;     /* 36px */
+  --tv-font-xl: 3.5rem;      /* 56px */
+  --tv-font-2xl: 5rem;       /* 80px */
+  --tv-font-3xl: 7rem;       /* 112px */
+  --tv-space-unit: 2rem;
+}
+
+/* ==========================================================================
+   Mode layar TV — override token ukuran font di dalam scope .tv-mode
+   ========================================================================== */
+.tv-mode {
+  --font-size-xs: var(--tv-font-sm);
+  --font-size-sm: var(--tv-font-sm);
+  --font-size-base: var(--tv-font-base);
+  --font-size-lg: var(--tv-font-lg);
+  --font-size-xl: var(--tv-font-xl);
+  --font-size-2xl: var(--tv-font-2xl);
+  --font-size-3xl: var(--tv-font-3xl);
+
+  font-size: var(--font-size-base);
+  /* cursor: none WAJIB tidak diset di sini -- mode TV harus menyembunyikan
+     kursor hanya setelah 3 detik tidak bergerak (dikendalikan lewat JS di
+     TvDisplay.js), bukan selalu tersembunyi sejak halaman dimuat. */
+}

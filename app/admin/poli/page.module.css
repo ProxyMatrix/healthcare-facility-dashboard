@@ -1,0 +1,108 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.addButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+}
+
+.message {
+  color: var(--color-text-muted);
+}
+
+.editButton {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.deleteButton {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+}
+
+.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 500;
+}
+
+.formError {
+  padding: var(--space-3);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.cancelButton {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+}
+
+.submitButton {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

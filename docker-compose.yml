@@ -1,0 +1,88 @@
+# docker-compose.yml — lingkungan development/self-hosted.
+#
+# CATATAN PENTING SOAL TZ (zona waktu):
+# Container Docker secara default berjalan di UTC, TIDAK PEDULI di negara
+# mana host-nya berada. Kalau TZ tidak diset eksplisit di SETIAP service:
+#   - Postgres: timestamp internalnya sendiri (mis. log server, fungsi
+#     now() kalau dipakai langsung di query manual) akan tampil UTC,
+#     menyulitkan saat membandingkan data lewat psql/pgAdmin dengan waktu
+#     WIB yang dilihat pasien di halaman publik.
+#   - MinIO: metadata waktu upload/log MinIO akan tampil UTC.
+#   - App (Next.js): walau lib/datetime.js SUDAH mengonversi ke WIB secara
+#     eksplisit lewat Intl.DateTimeFormat (jadi LOGIKA jadwal tetap benar
+#     apapun TZ container-nya -- lihat komentar di lib/datetime.js), log
+#     aplikasi dan `new Date().toString()` di console tetap akan tampil UTC
+#     tanpa TZ diset, membingungkan saat debugging.
+# Karena itu TZ=Asia/Jakarta diset eksplisit di ketiga service di bawah,
+# BUKAN mengandalkan timezone host/server.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      TZ: Asia/Jakarta
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    image: minio/minio:latest
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      TZ: Asia/Jakarta
+    command: server /data --console-address ":9001"
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - miniodata:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      TZ: Asia/Jakarta
+      DATABASE_URL: ${DATABASE_URL}
+      MINIO_ENDPOINT: ${MINIO_ENDPOINT}
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT}
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_BUCKET: ${MINIO_BUCKET}
+      SESSION_COOKIE_NAME: ${SESSION_COOKIE_NAME}
+      SESSION_MAX_AGE_DAYS: ${SESSION_MAX_AGE_DAYS}
+      MAX_PHOTO_SIZE_MB: ${MAX_PHOTO_SIZE_MB}
+      ALLOWED_IMAGE_TYPES: ${ALLOWED_IMAGE_TYPES}
+      FACILITY_NAME: ${FACILITY_NAME}
+      FACILITY_TIMEZONE: ${FACILITY_TIMEZONE}
+      APP_URL: ${APP_URL}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  miniodata:

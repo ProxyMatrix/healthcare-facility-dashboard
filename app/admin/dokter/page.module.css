@@ -1,0 +1,74 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.addButton {
+  padding: var(--space-2) var(--space-4);
+  background: var(--color-primary);
+  color: #ffffff;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  display: inline-block;
+}
+
+.filterRow {
+  margin-bottom: var(--space-4);
+}
+
+.select {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+  background: var(--color-surface);
+}
+
+.message {
+  color: var(--color-text-muted);
+}
+
+.editButton {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  display: inline-block;
+}
+
+.deleteButton {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+}
+
+.statusActive {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
+
+.statusInactive {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-100);
+  color: var(--color-text-muted);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}

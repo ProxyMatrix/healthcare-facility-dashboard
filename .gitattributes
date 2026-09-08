@@ -1,0 +1,8 @@
+# Paksa LF (bukan CRLF) untuk semua file teks, apa pun platform yang
+# checkout. WAJIB untuk *.sh -- script ini dijalankan di dalam container
+# Linux (Alpine sh); CRLF di shebang/baris shell script menyebabkan
+# error/perilaku aneh yang sulit dilacak. Tanpa file ini, git di Windows
+# dengan core.autocrlf=true akan diam-diam mengubah entrypoint.sh dan
+# docker/init-letsencrypt.sh jadi CRLF saat checkout berikutnya.
+* text=auto eol=lf
+*.sh text eol=lf

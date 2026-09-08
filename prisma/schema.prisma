@@ -1,0 +1,169 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN     // Akses penuh, termasuk kelola pengguna
+  STAFF     // Kelola dokter, jadwal, pengumuman — TIDAK bisa kelola pengguna
+}
+
+enum ExceptionType {
+  CANCELLED   // Dokter tidak praktik (cuti, tugas luar)
+  CHANGED     // Jam praktik berubah pada tanggal tersebut
+  ADDED       // Praktik tambahan di luar jadwal rutin
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String    @map("password_hash")
+  name         String
+  role         Role      @default(STAFF)
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  sessions  Session[]
+  auditLogs AuditLog[]
+
+  @@map("admin_users")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@map("sessions")
+}
+
+model Specialization {
+  id          String   @id @default(cuid())
+  name        String   @unique              // "Penyakit Dalam"
+  slug        String   @unique              // "penyakit-dalam"
+  description String?
+  iconName    String?  @map("icon_name")
+  sortOrder   Int      @default(0) @map("sort_order")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  doctors Doctor[]
+
+  @@map("specializations")
+}
+
+model Doctor {
+  id               String   @id @default(cuid())
+  name             String                              // "dr. Andi Pratama, Sp.PD"
+  slug             String   @unique
+  specializationId String   @map("specialization_id")
+  photoKey         String?  @map("photo_key")          // object key MinIO, BUKAN URL penuh
+  bio              String?                             // Bio profesional singkat
+  sortOrder        Int      @default(0) @map("sort_order")
+  isActive         Boolean  @default(true) @map("is_active")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  specialization Specialization      @relation(fields: [specializationId], references: [id], onDelete: Restrict)
+  schedules      Schedule[]
+  exceptions     ScheduleException[]
+
+  @@index([specializationId])
+  @@index([isActive])
+  @@map("doctors")
+}
+
+model Schedule {
+  id        String   @id @default(cuid())
+  doctorId  String   @map("doctor_id")
+  dayOfWeek Int      @map("day_of_week")   // 0=Minggu, 1=Senin, ... 6=Sabtu
+  startTime String   @map("start_time")    // "08:00" — STRING, bukan DateTime
+  endTime   String   @map("end_time")      // "12:00"
+  room      String?                        // "Poli 1"
+  quota     Int?                           // Kuota pasien (opsional, informatif saja)
+  note      String?
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, dayOfWeek])
+  @@index([dayOfWeek, isActive])
+  @@map("schedules")
+}
+
+model ScheduleException {
+  id        String        @id @default(cuid())
+  doctorId  String        @map("doctor_id")
+  date      DateTime      @db.Date            // Tanggal spesifik (tanpa jam)
+  type      ExceptionType
+  startTime String?       @map("start_time")  // Diisi jika CHANGED atau ADDED
+  endTime   String?       @map("end_time")
+  room      String?
+  reason    String?                           // "Cuti tahunan", "Seminar"
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+
+  @@index([doctorId, date])
+  @@index([date])
+  @@map("schedule_exceptions")
+}
+
+model Announcement {
+  id        String    @id @default(cuid())
+  title     String
+  content   String
+  priority  Int       @default(0)              // Makin besar makin atas
+  startsAt  DateTime? @map("starts_at")        // Null = langsung tampil
+  endsAt    DateTime? @map("ends_at")          // Null = tampil selamanya
+  isActive  Boolean   @default(true) @map("is_active")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([isActive, startsAt, endsAt])
+  @@map("announcements")
+}
+
+model FacilitySetting {
+  id           String  @id @default("singleton")   // Hanya ada satu baris
+  facilityName String  @map("facility_name")
+  tagline      String?
+  address      String?
+  phone        String?                             // Telepon FASILITAS, bukan pribadi
+  logoKey      String? @map("logo_key")
+  primaryColor String  @default("#0f766e") @map("primary_color")
+  openingNote  String? @map("opening_note")
+
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("facility_settings")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?  @map("user_id")
+  action    String                            // "CREATE", "UPDATE", "DELETE"
+  entity    String                            // "Doctor", "Schedule"
+  entityId  String?  @map("entity_id")
+  summary   String?                           // "Menambah dr. Andi Pratama"
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user AdminUser? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([createdAt])
+  @@map("audit_logs")
+}

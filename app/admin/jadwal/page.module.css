@@ -1,0 +1,242 @@
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.message {
+  color: var(--color-text-muted);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  margin-top: var(--space-7);
+  margin-bottom: var(--space-3);
+}
+
+.gridScroll {
+  overflow-x: auto;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.doctorHeaderCell,
+.dayHeaderCell {
+  text-align: left;
+  padding: var(--space-3);
+  background: var(--color-neutral-100);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.doctorCell {
+  padding: var(--space-3);
+  border-top: 1px solid var(--color-border);
+  min-width: 160px;
+  vertical-align: top;
+}
+
+.doctorName {
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+}
+
+.doctorSpec {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--space-2);
+}
+
+.cutiButton {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.cell {
+  padding: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+  min-width: 130px;
+  vertical-align: top;
+}
+
+.scheduleChip {
+  display: block;
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  margin-bottom: var(--space-1);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-dark);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-align: left;
+}
+
+.scheduleChip:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+}
+
+.addCellButton {
+  display: block;
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.addCellButton:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.exceptionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.exceptionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.exceptionDoctor {
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.exceptionType {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-full);
+}
+
+.typeCANCELLED {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+.typeCHANGED {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.typeADDED {
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+}
+
+.exceptionMeta {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.cancelExceptionButton {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.modalSubtitle {
+  font-weight: 700;
+  color: var(--color-primary-dark);
+  margin-bottom: var(--space-4);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-base);
+}
+
+.input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.formError {
+  padding: var(--space-3);
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.modalActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.modalActionsRight {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  margin-left: auto;
+}
+
+.cancelButton {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+}
+
+.submitButton {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.deleteButton {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+.submitButton:disabled,
+.cancelButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

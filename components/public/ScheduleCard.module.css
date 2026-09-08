@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-3);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.photo {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.photoFallback {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-bg);
+  color: var(--color-primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+}
+
+.info {
+  min-width: 0;
+}
+
+.name {
+  font-weight: 700;
+  font-size: var(--font-size-lg);
+}
+
+.specialization {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.timeRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.time {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+}
+
+.originalTime {
+  text-decoration: line-through;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+
+.room {
+  color: var(--color-text-muted);
+}
+
+.note {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+}

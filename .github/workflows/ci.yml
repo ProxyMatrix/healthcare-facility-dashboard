@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    # prisma generate & next build butuh DATABASE_URL yang valid secara
+    # SINTAKS untuk memvalidasi datasource di schema.prisma -- tidak perlu
+    # koneksi database sungguhan (semua rute yang menyentuh database sudah
+    # ditandai force-dynamic, jadi tidak ada query yang benar-benar
+    # dijalankan saat build).
+    env:
+      DATABASE_URL: postgresql://ci_user:ci_password@localhost:5432/ci_placeholder
+
+    steps:
+      - name: Checkout kode
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependency
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
